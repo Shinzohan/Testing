@@ -8,7 +8,7 @@ export const projects = [
     {
       title: 'Freedom to Explore',
       description: 'Explore multiple open areas and complete tasks in any way and order you choose. Try different solutions and find out what happens.',
-      src: '/Nightboy.mp4',
+      src: '/nightboy.mp4',
       
     },
     {
