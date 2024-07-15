@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, lazy, Suspense } from 'react';
+import React, { useEffect, useState, useCallback, } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { FiMousePointer } from 'react-icons/fi';
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
   const backgroundImage = isMobile ? '/dunno.png' : '/Onibisteam.png';
 
   return (
-    <motion.div className="relative h-screen overflow-hidden font-Mystery" variants={containerVariants} initial="hidden" animate="visible">
+    <motion.div className="relative h-screen overflow-scroll font-Mystery" variants={containerVariants} initial="hidden" animate="visible">
       <div className="absolute flex inset-0 z-0">
         <Image src={backgroundImage} fill alt="Background" priority quality={100} style={{ objectFit: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
