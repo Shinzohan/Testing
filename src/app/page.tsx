@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { FiMousePointer } from 'react-icons/fi';
@@ -10,25 +10,24 @@ import './globals.css';
 const Home: React.FC = () => {
   const [gridState, setGridState] = useState({ columns: 0, rows: 0, total: 0, toggled: false });
   const [showClickMe, setShowClickMe] = useState(false);
-  const [gridKey, setGridKey] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const controls = useAnimation();
+  const gridRef = useRef(null);
 
   const updateGridSize = useCallback(() => {
-    const size = window.innerWidth < 768 ? 50 : 100;
+    const isMobileView = window.innerWidth < 768;
+    const size = isMobileView ? 25 : 100; // 25px for mobile, 100px for larger screens
     const columns = Math.floor(window.innerWidth / size);
     const rows = Math.floor(window.innerHeight / size);
-    setGridState({ columns, rows, total: rows * columns, toggled: false });
-    setIsMobile(window.innerWidth < 768);
+    setGridState(prev => ({ ...prev, columns, rows, total: rows * columns }));
+    setIsMobile(isMobileView);
   }, []);
 
   useEffect(() => {
     updateGridSize();
-    setGridKey(k => k + 1);
 
     const debouncedResize = debounce(() => {
       updateGridSize();
-      setGridKey(k => k + 1);
     }, 250);
 
     window.addEventListener('resize', debouncedResize);
@@ -64,7 +63,7 @@ const Home: React.FC = () => {
   const backgroundImage = isMobile ? '/dunno.png' : '/Onibisteam.png';
 
   return (
-    <motion.div className="relative h-screen overflow-scroll font-Mystery" variants={containerVariants} initial="hidden" animate="visible">
+    <motion.div className="relative h-screen overflow-hidden font-Mystery" variants={containerVariants} initial="hidden" animate="visible">
       <div className="absolute flex inset-0 z-0">
         <Image src={backgroundImage} fill alt="Background" priority quality={100} style={{ objectFit: 'cover' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
@@ -72,25 +71,22 @@ const Home: React.FC = () => {
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center p-4">
         <div className="flex flex-col items-center justify-center gap-8">
           <div className="text-center text-white">
-            <h1 className="text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-8xl font-medieval">Welcome to Our Game Studio</h1>
-            <p className="mt-4 text-xl md:text-2xl font-medieval">Creating immersive gaming experiences</p>
+            <h1 className="text-3xl font-black uppercase sm:text-5xl md:text-6xl lg:text-7xl font-medieval">Welcome to Our Game Studio</h1>
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 xl:left-10 mb-4 flex pb-[100px] gap-5 sm:left-1 ml-4">
-        <Image src='/Onibichan.svg' alt='onibilogo' width={100} height={100} priority />
+      <div className="absolute bottom-0 left-4 mb-4 flex pb-[100px] xl:pb-[100px]">
+        <Image src='/Onibichan.svg' alt='onibilogo' width={80} height={80} priority />
       </div>
-      <div key={gridKey} id="tiles" className="absolute inset-0 z-20 grid gap-[1px]" style={{ gridTemplateColumns: `repeat(${gridState.columns}, minmax(0, 1fr))`, gridTemplateRows: `repeat(${gridState.rows}, minmax(0, 1fr))` }}>
+      <div ref={gridRef} id="tiles" className="absolute inset-0 z-20 grid gap-[1px]" style={{ gridTemplateColumns: `repeat(${gridState.columns}, minmax(0, 1fr))`, gridTemplateRows: `repeat(${gridState.rows}, minmax(0, 1fr))` }}>
         {renderGrid()}
       </div>
       <AnimatePresence>
         {showClickMe && (
           <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-            <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              <motion.div className="absolute w-32 h-32 bg-transparent border-4 border-white rounded-full" style={{opacity: 0}} animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }} />
-              <motion.div className="text-white text-3xl font-bold bg-transparent bg-opacity-50 px-6 py-3 rounded-full">
-                <FiMousePointer />
-              </motion.div>
+            <motion.div className="absolute w-24 h-24 sm:w-32 sm:h-32 bg-transparent border-4 border-white rounded-full" style={{opacity: 0}} animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }} />
+            <motion.div className="text-white text-2xl sm:text-3xl font-bold bg-transparent bg-opacity-50 px-4 py-2 sm:px-6 sm:py-3 rounded-full">
+              <FiMousePointer />
             </motion.div>
           </motion.div>
         )}
@@ -98,7 +94,7 @@ const Home: React.FC = () => {
       <style jsx global>{`
         .tile { transition: opacity 0.5s ease; will-change: opacity; }
         body { overflow: hidden; }
-        #tiles { height: calc(100vh - 1px); width: calc(100vw - 1px); }
+        #tiles { height: 100vh; width: 100vw; }
       `}</style>
     </motion.div>
   );

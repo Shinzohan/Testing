@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
         <div className="logo-container relative flex items-center">
           <Link href="/" passHref>
             <motion.div
-              className="relative bg-black text-white rounded-md flex md:right-12 items-center justify-center z-50 xl:right-36"
+              className="relative bg-black text-white rounded-md flex md:right-20 items-center justify-center z-50 xl:right-32"
               initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
               animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
               transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
