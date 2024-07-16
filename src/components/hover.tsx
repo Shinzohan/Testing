@@ -3,16 +3,17 @@ import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import LaunchingText from "./Animatedtext";
 
-export const DragCards = React.memo(() => {
+const DragCards = React.memo(() => {
   return (
     <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-black">
       <div className="relative z-0">
-        <LaunchingText /> 
+        <LaunchingText />
       </div>
       <Cards />
     </section>
   );
 });
+DragCards.displayName = 'DragCards';
 
 const Cards = React.memo(() => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -29,10 +30,10 @@ const Cards = React.memo(() => {
     {
       src: "/forest.png",
       alt: "Example image",
-      rotate:"12deg",
-      top:"45%",
-      left:"60%",
-      className:"w-60 md:w-80"
+      rotate: "12deg",
+      top: "45%",
+      left: "60%",
+      className: "w-60 md:w-80"
     },
     {
       src: "/lamp.png",
@@ -50,11 +51,6 @@ const Cards = React.memo(() => {
       left: "40%",
       className: "w-42 md:w-72"
     },
-    
-    
-    
-    
-    
   ], []);
 
   return (
@@ -69,6 +65,7 @@ const Cards = React.memo(() => {
     </div>
   );
 });
+Cards.displayName = 'Cards';
 
 interface Props {
   containerRef: MutableRefObject<HTMLDivElement | null>;
@@ -117,5 +114,6 @@ const Card = React.memo(({
     />
   );
 });
+Card.displayName = 'Card';
 
 export default DragCards;

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -12,10 +14,10 @@ const LaunchingText: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTextIndex((prevIndex) => (prevIndex + 1) % textVariants.length);
-    }, 4000); 
+    }, 4000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [textVariants.length]); // Add textVariants.length to the dependency array
 
   const variants = {
     enter: { y: 20, opacity: 0 },
@@ -24,7 +26,7 @@ const LaunchingText: React.FC = () => {
   };
 
   return (
-    <div className=' overflow-hidden h-full w-full p-10  text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl'>
+    <div className='overflow-hidden h-full w-full p-10 text-4xl font-black uppercase sm:text-7xl md:text-8xl lg:text-9xl'>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentTextIndex}
@@ -40,5 +42,7 @@ const LaunchingText: React.FC = () => {
     </div>
   );
 };
+
+LaunchingText.displayName = 'LaunchingText'; // Add display name
 
 export default LaunchingText;
