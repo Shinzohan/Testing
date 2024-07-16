@@ -1,13 +1,16 @@
 import React, { MutableRefObject, useRef, useState, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
-import LaunchingText from "./Animatedtext";
 
 const DragCards = React.memo(() => {
   return (
     <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-black">
       <div className="relative z-0">
-        <LaunchingText />
+      <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
+
+Scroll down <span>◥◣_◢◤</span>
+
+</h2>
       </div>
       <Cards />
     </section>
