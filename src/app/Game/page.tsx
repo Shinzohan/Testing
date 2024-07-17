@@ -7,8 +7,14 @@ import dynamic from 'next/dynamic';
 
 type Project = typeof projects[number];
 
-const Card = dynamic<Project & { i: number; progress: any; range: number[]; targetScale: number }>(() => import('@/components/card'), { ssr: false });
-const DragCards = dynamic(() => import('@/components/hover'), { ssr: false });
+const Card = dynamic<Project & { i: number; progress: any; range: number[]; targetScale: number }>(
+  () => import('@/components/card').then(mod => mod.default),
+  { ssr: false, loading: () => <div>Loading...</div> }
+);
+
+const DragCards = dynamic(() => import('@/components/hover').then(mod => mod.default), 
+  { ssr: false, loading: () => <div>Loading...</div> }
+);
 
 const PostCard: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,8 +43,8 @@ const PostCard: React.FC = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = parseInt(entry.target.getAttribute('data-index') || '0', 10);
-            setRenderedProjects((prev) => 
-              [...prev, renderProject(projects[index], index)]
+            setRenderedProjects(prev => 
+              prev.some(p => p.key === `p_${index}`) ? prev : [...prev, renderProject(projects[index], index)]
             );
             observer.unobserve(entry.target);
           }
@@ -55,7 +61,7 @@ const PostCard: React.FC = () => {
     });
 
     return () => observer.disconnect();
-  }, [renderProject]);
+  }, [renderProject, projects]);
 
   return (
     <div className="fixed inset-0 bg-black text-white overflow-hidden scroll-smooth font-Mystery">
@@ -66,10 +72,8 @@ const PostCard: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Title Section */}
         <div className="title-div h-screen flex flex-col items-center justify-center text-7xl text-center bg-black shadow-2xl rounded-lg border-black">
           <DragCards />
-          <div className='mb-32'>
           <motion.svg
             initial={{ y: 0 }}
             animate={{ opacity: 1, y: "20px" }}
@@ -79,9 +83,8 @@ const PostCard: React.FC = () => {
             xmlns="http://www.w3.org/2000/svg"
             width={100}
             height={100}
-            className="relative bottom-44"
+            className="relative bottom-44 mb-32"
           >
-            {/* Arrows */}
             <path
               d="M24 18 L30 6 L24 12 L18 6 L24 18"
               stroke="#000000"
@@ -95,9 +98,7 @@ const PostCard: React.FC = () => {
               fill="yellow"
             />
           </motion.svg>
-          </div>
         </div>
-        {/* Parallax Cards Section */}
         <div className="relative">
           {renderedProjects}
         </div>

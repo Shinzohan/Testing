@@ -8,7 +8,7 @@ const DragCards = React.memo(() => {
       <div className="relative z-0">
       <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
   Scroll down<br />
-  <span>◥◣_◢◤</span>
+  <span>◥◣◢◤</span>
 </h2>
 
       </div>
