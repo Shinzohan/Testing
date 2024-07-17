@@ -1,6 +1,6 @@
 'use client';
 import { motion, useTransform, MotionValue } from 'framer-motion';
-import { useRef, memo, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 type CardProps = {
@@ -13,12 +13,11 @@ type CardProps = {
   targetScale: number;
 };
 
-const Card = memo(({ i, title, description, src, progress, range, targetScale }: CardProps) => {
+const Card = ({ i, title, description, src, progress, range, targetScale }: CardProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const y = useTransform(progress, range, [0, -100]);
   const scale = useTransform(progress, range, [1, targetScale]);
   const [videoLoaded, setVideoLoaded] = useState(false);
-
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
@@ -47,25 +46,22 @@ const Card = memo(({ i, title, description, src, progress, range, targetScale }:
             </p>
           </div>
           <div ref={inViewRef} className="xl:w-[60%] xl:h-[300px] sm:w-[90%] sm:h-[200px] rounded-2xl overflow-hidden shadow-lg mt-4">
-            <motion.div className="w-full h-full">
-              {inView && (
-                <video
-                  className={`object-cover w-full h-full transition-opacity duration-300 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
-                  src={`/video/${src}`}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  onLoadedData={handleVideoLoad}
-                />
-              )}
-            </motion.div>
+            {inView && (
+              <motion.video
+                className={`object-cover w-full h-full transition-opacity duration-300 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                src={`/video/${src}`}
+                autoPlay
+                muted
+                loop
+                playsInline
+                onLoadedData={handleVideoLoad}
+              />
+            )}
           </div>
         </div>
       </motion.div>
     </div>
   );
-});
+};
 
-Card.displayName = 'Card';
 export default Card;

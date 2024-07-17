@@ -1,26 +1,23 @@
-import React, { MutableRefObject, useRef, useState, useCallback, useMemo } from "react";
+import React, { useRef, useState, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 
-const DragCards = React.memo(() => {
+const DragCards = () => {
   return (
     <section className="relative grid min-h-screen w-full place-content-center overflow-hidden bg-black">
       <div className="relative z-0">
-      <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
-  Scroll down<br />
-  <span>◥◣◢◤</span>
-</h2>
-
+        <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
+          Scroll down<br />
+          <span>◥◣◢◤</span>
+        </h2>
       </div>
       <Cards />
     </section>
   );
-});
-DragCards.displayName = 'DragCards';
+};
 
-const Cards = React.memo(() => {
+const Cards = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-
   const cardData = useMemo(() => [
     {
       src: "/Boy.png",
@@ -67,11 +64,10 @@ const Cards = React.memo(() => {
       ))}
     </div>
   );
-});
-Cards.displayName = 'Cards';
+};
 
-interface Props {
-  containerRef: MutableRefObject<HTMLDivElement | null>;
+interface CardProps {
+  containerRef: React.RefObject<HTMLDivElement>;
   src: string;
   alt: string;
   top: string;
@@ -80,15 +76,7 @@ interface Props {
   className?: string;
 }
 
-const Card = React.memo(({
-  containerRef,
-  src,
-  alt,
-  top,
-  left,
-  rotate,
-  className,
-}: Props) => {
+const Card = ({ containerRef, src, alt, top, left, rotate, className }: CardProps) => {
   const [zIndex, setZIndex] = useState(0);
 
   const updateZIndex = useCallback(() => {
@@ -116,7 +104,6 @@ const Card = React.memo(({
       loading="lazy"
     />
   );
-});
-Card.displayName = 'Card';
+};
 
 export default DragCards;

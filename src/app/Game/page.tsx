@@ -3,25 +3,15 @@ import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import { projects } from '../data';
 import '../globals.css';
-import dynamic from 'next/dynamic';
-
-type Project = typeof projects[number];
-
-const Card = dynamic<Project & { i: number; progress: any; range: number[]; targetScale: number }>(
-  () => import('@/components/card').then(mod => mod.default),
-  { ssr: false, loading: () => <div>Loading...</div> }
-);
-
-const DragCards = dynamic(() => import('@/components/hover').then(mod => mod.default), 
-  { ssr: false, loading: () => <div>Loading...</div> }
-);
+import Card from '@/components/card';
+import DragCards from '@/components/hover';
 
 const PostCard: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ container: containerRef });
   const [renderedProjects, setRenderedProjects] = useState<JSX.Element[]>([]);
 
-  const renderProject = useCallback((project: Project, i: number) => {
+  const renderProject = useCallback((project: typeof projects[number], i: number) => {
     const targetScale = 1 - ((projects.length - i) * 0.06);
     return (
       <Card
@@ -39,7 +29,7 @@ const PostCard: React.FC = () => {
     if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
+      (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = parseInt(entry.target.getAttribute('data-index') || '0', 10);
@@ -53,15 +43,20 @@ const PostCard: React.FC = () => {
       { rootMargin: '200px' }
     );
 
-    projects.forEach((_, index) => {
+    const observerTargets = projects.map((_, index) => {
       const el = document.createElement('div');
       el.setAttribute('data-index', index.toString());
       containerRef.current?.appendChild(el);
-      observer.observe(el);
+      return el;
     });
 
-    return () => observer.disconnect();
-  }, [renderProject, projects]);
+    observerTargets.forEach(el => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+      observerTargets.forEach(el => el.remove());
+    };
+  }, [renderProject]);
 
   return (
     <div className="fixed inset-0 bg-black text-white overflow-hidden scroll-smooth font-Mystery">
@@ -86,13 +81,7 @@ const PostCard: React.FC = () => {
             className="relative bottom-44 mb-32"
           >
             <path
-              d="M24 18 L30 6 L24 12 L18 6 L24 18"
-              stroke="#000000"
-              strokeWidth="1"
-              fill="yellow"
-            />
-            <path
-              d="M24 42 L30 30 L24 36 L18 30 L24 42"
+              d="M24 18 L30 6 L24 12 L18 6 L24 18 M24 42 L30 30 L24 36 L18 30 L24 42"
               stroke="#000000"
               strokeWidth="1"
               fill="yellow"
