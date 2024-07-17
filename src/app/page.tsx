@@ -86,7 +86,7 @@ const Home: React.FC = () => {
           <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
             <motion.div className="absolute w-24 h-24 sm:w-32 sm:h-32 bg-transparent border-4 border-white rounded-full" style={{opacity: 0}} animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }} />
             <motion.div className="text-white text-2xl sm:text-3xl font-bold bg-transparent bg-opacity-50 px-4 py-2 sm:px-6 sm:py-3 rounded-full">
-              <FiMousePointer />
+              
             </motion.div>
           </motion.div>
         )}
