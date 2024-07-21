@@ -37,10 +37,10 @@ const Card = ({ i, title, description, src, progress, range, targetScale }: Card
         }}
         className="relative flex flex-col p-5 transform-origin-top rounded-3xl shadow-2xl bg-neutral-800 overflow-hidden xl:w-[900px] xl:h-[500px] sm:w-[600px] sm:h-[500px]"
       >
-        <h2 className="text-2xl font-bold text-center mb-4 relative z-10 text-[#EADBC8] underline">{title}</h2>
+        <h2 className="text-2xl font-bold text-center mb-4 relative z-10 text-white underline">{title}</h2>
         <div className="flex flex-col items-center h-full relative z-10">
           <div className="flex-grow flex items-center justify-center w-[90%]">
-            <p className="text-base leading-relaxed text-[#EADBC8] text-center">
+            <p className="text-base leading-relaxed text-white text-center">
               <span className="text-3xl font-semibold">{description[0]}</span>
               {description.slice(1)}
             </p>
