@@ -35,7 +35,7 @@ const Card = ({ i, title, description, src, progress, range, targetScale }: Card
           scale,
           top: `calc(-5vh + ${i * 25}px)`,
         }}
-        className="relative flex flex-col p-5 transform-origin-top rounded-3xl shadow-2xl bg-neutral-800 overflow-hidden xl:w-[900px] xl:h-[500px] sm:w-[600px] sm:h-[500px]"
+        className="relative flex flex-col p-5 transform-origin-top  shadow-2xl bg-neutral-800 overflow-hidden xl:w-[900px] xl:h-[500px] sm:w-[600px] sm:h-[500px]"
       >
         <h2 className="text-2xl font-bold text-center mb-4 relative z-10 text-white underline">{title}</h2>
         <div className="flex flex-col items-center h-full relative z-10">

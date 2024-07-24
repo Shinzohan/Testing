@@ -20,7 +20,7 @@ const Cards = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const cardData = useMemo(() => [
     {
-      src: "/Boy.png",
+      src: "/Boy.webp",
       alt: "Example image",
       rotate: "6deg",
       top: "20%",
@@ -28,7 +28,7 @@ const Cards = () => {
       className: "w-36 md:w-56"
     },
     {
-      src: "/forest.png",
+      src: "/forest.webp",
       alt: "Example image",
       rotate: "12deg",
       top: "45%",
@@ -36,7 +36,7 @@ const Cards = () => {
       className: "w-60 md:w-80"
     },
     {
-      src: "/lamp.png",
+      src: "/lamp.webp",
       alt: "Example image",
       rotate: "-6deg",
       top: "20%",
@@ -44,12 +44,12 @@ const Cards = () => {
       className: "w-52 md:w-80"
     },
     {
-      src: "/witch.png",
+      src: "/witch.webp",
       alt: "Example image",
       rotate: "8deg",
       top: "50%",
       left: "40%",
-      className: "w-42 md:w-72"
+      className: "w-32 md:w-72"
     },
   ], []);
 
