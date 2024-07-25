@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ["latin"] });
 // Dynamically import AnimatedPage
 const AnimatedPage = dynamic(() => import('@/components/Animatedpage'));
 
+// Dynamically import MousePointerAnimation
+const MousePointerAnimation = dynamic(() => import('@/components/MousePointer'), {
+  ssr: false
+});
+
 export const metadata: Metadata = {
   title: "Onibi",
   description: "Aniflow Interactive is the developer for Onibi, an upcoming adventure and exploration game. Dash, possess, and explore your way through different areas as you accompany a child on their adventures as their fledgling guardian spirit",
@@ -22,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AnimatedPage>{children}</AnimatedPage>
+        <MousePointerAnimation />
       </body>
     </html>
   );
