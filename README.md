@@ -2,7 +2,7 @@
 
 I've been working on a studio site for a friend, and you can check out their game, **Onibi**, here: [Onibi on Steam](https://store.steampowered.com/app/2934090/Onibi/).  
 
-You can check out the prototype here which is paused for now: https://testing-two-ashy.vercel.app/
+You can check out the prototype here which is paused for now: ![Prototype](https://testing-two-ashy.vercel.app/)
 
 ![Game Preview](https://github.com/user-attachments/assets/155c0562-3ecd-48de-b460-f99a23d5058a)
 *Preview of the game, showcasing gameplay or key features.*  
